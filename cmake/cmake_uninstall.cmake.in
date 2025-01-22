@@ -1,0 +1,47 @@
+# ------------------------------------------------------------------------------
+# cmake_uninstall.cmake
+# Code to read the install manifest and remove all files with "make uninstall"
+# From http://www.cmake.org/Wiki/RecipeAddUninstallTarget, with updates
+# ------------------------------------------------------------------------------
+IF(NOT EXISTS "@CMAKE_CURRENT_BINARY_DIR@/install_manifest.txt")
+  MESSAGE(FATAL_ERROR "Cannot find install manifest: @CMAKE_CURRENT_BINARY_DIR@/install_manifest.txt")
+ENDIF(NOT EXISTS "@CMAKE_CURRENT_BINARY_DIR@/install_manifest.txt")
+
+FILE (STRINGS "@CMAKE_CURRENT_BINARY_DIR@/install_manifest.txt" files)
+
+FOREACH(file ${files})
+  MESSAGE(STATUS "Uninstalling $ENV{DESTDIR}${file}")
+  IF(EXISTS "$ENV{DESTDIR}${file}")
+    EXECUTE_PROCESS(
+      COMMAND @CMAKE_COMMAND@ -E rm $ENV{DESTDIR}${file}
+      OUTPUT_VARIABLE rm_out
+      RESULT_VARIABLE rm_retval
+      )
+    IF(NOT "${rm_retval}" STREQUAL 0)
+      MESSAGE(FATAL_ERROR "Problem when removing $ENV{DESTDIR}${file}")
+    ENDIF(NOT "${rm_retval}" STREQUAL 0)
+  ELSE(EXISTS "$ENV{DESTDIR}${file}")
+    MESSAGE(STATUS "File $ENV{DESTDIR}${file} does not exist.")
+  ENDIF(EXISTS "$ENV{DESTDIR}${file}")
+ENDFOREACH(file)
+
+# remove project-specific directories which should no longer contain anything
+set(dirs_to_clean
+	"@CMAKE_INSTALL_PREFIX@/@CMAKE_INSTALL_DIR@"
+	"@CMAKE_INSTALL_PREFIX@/@INCLUDE_INSTALL_DIR@"
+)
+FOREACH(dir ${dirs_to_clean})
+  MESSAGE(STATUS "Removing directory $ENV{DESTDIR}${dir}")
+  IF(EXISTS "$ENV{DESTDIR}${dir}")
+    EXECUTE_PROCESS(
+      COMMAND @CMAKE_COMMAND@ -E rm -r $ENV{DESTDIR}${dir}
+      OUTPUT_VARIABLE rm_out
+      RESULT_VARIABLE rm_retval
+      )
+    IF(NOT "${rm_retval}" STREQUAL 0)
+      MESSAGE(FATAL_ERROR "Problem when removing $ENV{DESTDIR}${dir}")
+    ENDIF(NOT "${rm_retval}" STREQUAL 0)
+  ELSE(EXISTS "$ENV{DESTDIR}${dir}")
+    MESSAGE(STATUS "Directory $ENV{DESTDIR}${dir} does not exist.")
+  ENDIF(EXISTS "$ENV{DESTDIR}${dir}")
+ENDFOREACH(dir $dirs_to_clean)
