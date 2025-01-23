@@ -43,6 +43,10 @@ MAKEJ=2
 
 PREFIX=/usr/local
 
+# Workaround permissions on macos-14 github runner
+# https://github.com/actions/runner-images/issues/9272
+sudo chown -R runner:admin /usr/local
+
 # Optionally install gcc
 if [ "x${use_gcc}" = "xyes" ]; then
     brew install gcc@${gcc_version}
