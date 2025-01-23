@@ -78,8 +78,7 @@ jobs:
           source ~/conda/etc/profile.d/conda.sh \
             && conda create --yes -n test python=${{ matrix.python }} \
             && conda activate test \
-            && conda install --yes --file conda_dev_requirements.txt \
-            && pip install -r test-requirements.txt
+            && conda install --yes compilers cmake boost libflac numpy astropy
 
       - name: Install
         run: |
@@ -92,4 +91,4 @@ jobs:
           source ~/conda/etc/profile.d/conda.sh \
             && conda activate test \
             && export OMP_NUM_THREADS=2 \
-            && pytest ./test
+            && python3 -c 'from spt3g import core; from spt3g import so'

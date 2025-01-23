@@ -4,13 +4,13 @@ execute_process(COMMAND ${Python_EXECUTABLE} -c
   OUTPUT_VARIABLE NUMPY_INCLUDE_DIR
   OUTPUT_STRIP_TRAILING_WHITESPACE
 )
+include_directories(${NUMPY_INCLUDE_DIR})
 
 add_spt3g_library(so SHARED
   src/G3SuperTimestream.cxx
   src/numpy_assist.cxx
 )
 
-target_include_directories(so PUBLIC ${NUMPY_INCLUDE_DIR})
 target_link_libraries(so PUBLIC core)
 
 find_package(OpenMP)
