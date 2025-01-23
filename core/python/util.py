@@ -1,4 +1,6 @@
-from . import indexmod, pipesegment, G3FrameType, log_fatal, G3Reader, G3NetworkSender
+from .._libcore import G3FrameType, G3Reader, G3NetworkSender
+from .g3logging import log_fatal
+from .modconstruct import indexmod, pipesegment
 
 @indexmod
 def Delete(frame, keys=[], type=None):
@@ -65,7 +67,7 @@ def InjectDebug(frame, type=None, debug_start_func = None):
 
     The frame data is stored in the variable names "frame".
 
-    If debug_start_func is not None, only starts a debug session when 
+    If debug_start_func is not None, only starts a debug session when
             debug_start_func(frame) == True
         '''
     if type is None or frame.type == type:
@@ -181,7 +183,7 @@ class DropOrphanMetadata(object):
             else:
                 self.metacache.append(frame)
             return []
-                    
+
 
 del indexmod
 del pipesegment

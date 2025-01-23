@@ -1,4 +1,4 @@
-from . import G3FrameType
+from .._libcore import G3FrameType
 from copy import copy
 import inspect
 import textwrap
@@ -27,7 +27,7 @@ class cache_frame_data(object):
     This is a decorator for use with G3Modules written as functions.  It enables
     a function to use cached values from other types of frames in the processing
     of a frame.
-    
+
     To make that confusing sentence clearer with an example, in a lot of cases
     we want to have a module that works on Scan frames, but have access to the
     BolometerProperties.  This decorator allows you to specify the information
@@ -47,7 +47,7 @@ class cache_frame_data(object):
     Key specifies the name of the argument that we pass the infromation to in
     the decorated function.  If the decorated function is called with Key as an
     argument it will overwrite the value specified in the decorator.
-       
+
     Value specifies the default path to look for the cached data.  It will
     search all of the frames that do not have the frame type 'type' for a key
     with that value.  This can be overridden when calling the decorated
@@ -74,7 +74,7 @@ Cached Values
             doc_append += '    %s = "%s"\n' % ( k, v )
 
         class WrappedFunc:
-            def __init__(self, *args, **kwargs): 
+            def __init__(self, *args, **kwargs):
                 self.args = args
                 self.kwargs = kwargs
 

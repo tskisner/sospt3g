@@ -1,5 +1,5 @@
 import numpy as np
-from . import Quat, G3VectorQuat, G3TimestreamQuat
+from .._libcore import Quat, G3VectorQuat, G3TimestreamQuat
 
 __all__ = []
 
