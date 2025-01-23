@@ -45,22 +45,22 @@ pip install -v cmake wheel setuptools
 # NOTE: for now, we build with numpy 2.0.x, which is backwards compatible with
 # numpy-1.x and forward compatible with numpy-2.x.
 pyver=$(python3 --version 2>&1 | awk '{print $2}' | sed -e "s#\(.*\)\.\(.*\)\..*#\1.\2#")
-# if [ ${pyver} == "3.8" ]; then
-#     numpy_ver="1.20"
-# fi
-# if [ ${pyver} == "3.9" ]; then
-#     numpy_ver="1.20"
-# fi
-# if [ ${pyver} == "3.10" ]; then
-#     numpy_ver="1.22"
-# fi
-# if [ ${pyver} == "3.11" ]; then
-#     numpy_ver="1.24"
-# fi
-numpy_ver="2.0.1"
+# # if [ ${pyver} == "3.8" ]; then
+# #     numpy_ver="1.20"
+# # fi
+# # if [ ${pyver} == "3.9" ]; then
+# #     numpy_ver="1.20"
+# # fi
+# # if [ ${pyver} == "3.10" ]; then
+# #     numpy_ver="1.22"
+# # fi
+# # if [ ${pyver} == "3.11" ]; then
+# #     numpy_ver="1.24"
+# # fi
+# numpy_ver="2.0.1"
 
 # Install build requirements.
-CC="${CC}" CFLAGS="${CFLAGS}" pip install -v "numpy<${numpy_ver}" scipy astropy
+CC="${CC}" CFLAGS="${CFLAGS}" pip install -v "numpy" scipy astropy
 
 # Install boost
 

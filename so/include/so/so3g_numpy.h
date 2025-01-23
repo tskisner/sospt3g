@@ -17,7 +17,8 @@
 // source files (main.cxx), and define NO_IMPORT_ARRAY in the others.
 // Then, from this header file, it is safe to include arrayobject.h.
 
-#define PY_ARRAY_UNIQUE_SYMBOL Py_Array_API_SO3G
+#define PY_ARRAY_UNIQUE_SYMBOL Py_Array_API_SO
 #define NPY_NO_DEPRECATED_API NPY_1_7_API_VERSION
+#define NPY_TARGET_VERSION NPY_1_25_API_VERSION
 #include <numpy/arrayobject.h>
 

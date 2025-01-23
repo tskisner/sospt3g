@@ -14,7 +14,7 @@ readme = "README.md"
 description = "Public Subset of Analysis Software Developed by the SPT-3G Collaboration"
 urls = {source = "https://github.com/simonsobs/sospt3g"}
 license = {file = "LICENSE"}
-requires-python = ">=3.8"
+requires-python = ">=3.9"
 dependencies = ["numpy", "scipy", "astropy"]
 dynamic=["version"]
 
