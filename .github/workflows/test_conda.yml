@@ -84,7 +84,7 @@ jobs:
         run: |
           source ~/conda/etc/profile.d/conda.sh \
             && conda activate test \
-            && export CMAKE_ARGS="-DCMAKE_C_COMPILER -DCMAKE_INSTALL_PREFIX=${CONDA_PREFIX} -DCMAKE_VERBOSE_MAKEFILE=ON" \
+            && export CMAKE_ARGS="-DCMAKE_C_COMPILER=${CC} -DCMAKE_CXX_COMPILER=${CXX} -DCMAKE_INSTALL_PREFIX=${CONDA_PREFIX} -DCMAKE_VERBOSE_MAKEFILE=ON" \
             && python3 -m pip install -v .
 
       - name: Run Tests
