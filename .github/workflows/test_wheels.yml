@@ -110,7 +110,7 @@ jobs:
       CIBW_BEFORE_TEST: export OMP_NUM_THREADS=2
       CIBW_TEST_REQUIRES:
       CIBW_TEST_COMMAND: >
-        python -c 'from spt3g import core; from spt3g import so'
+        python -c 'from sospt3g import core; from sospt3g import so'
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -131,4 +131,4 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: wheels_cp${{ matrix.python }}-${{ matrix.builder }}
-          path: ./wheelhouse/so3g*cp${{ matrix.python }}-${{ matrix.builder }}*${{ matrix.arch }}*.whl
+          path: ./wheelhouse/sospt3g*cp${{ matrix.python }}-${{ matrix.builder }}*${{ matrix.arch }}*.whl

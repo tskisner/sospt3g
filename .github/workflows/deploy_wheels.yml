@@ -94,7 +94,7 @@ jobs:
         CFLAGS='-O3 -fPIC'
         CXXFLAGS='-O3 -fPIC -std=c++17'
         BOOST_ROOT=/usr/local
-        BLAS_LIBRARIES='-L/usr/local/lib -lopenblas -fopenmp -lm -lgfortran'
+        FLAC_ROOT=/usr/local
       CIBW_ENVIRONMENT_MACOS: >
         MACOSX_DEPLOYMENT_TARGET=${{ matrix.deploy }}
         CC=clang
@@ -103,16 +103,14 @@ jobs:
         CXXFLAGS='-O3 -fPIC -std=c++17 -stdlib=libc++'
         BOOST_ROOT=/usr/local
         FLAC_ROOT=/usr/local
-        BLAS_LIBRARIES='/usr/local/lib/libopenblas.dylib'
       CIBW_BEFORE_BUILD_LINUX: ./wheels/install_deps_linux.sh
       CIBW_BEFORE_BUILD_MACOS: ./wheels/install_deps_osx.sh
       CIBW_REPAIR_WHEEL_COMMAND_LINUX: ./wheels/repair_wheel_linux.sh {dest_dir} {wheel}
       CIBW_REPAIR_WHEEL_COMMAND_MACOS: ./wheels/repair_wheel_macos.sh {dest_dir} {wheel} {delocate_archs}
       CIBW_BEFORE_TEST: export OMP_NUM_THREADS=2
-      CIBW_TEST_REQUIRES: pytest pixell
+      CIBW_TEST_REQUIRES:
       CIBW_TEST_COMMAND: >
-        python -c 'import so3g.smurf.reader; from spt3g import core' &&
-        python -m pytest {package}/test
+        python -c 'from sospt3g import core; from sospt3g import so'
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -132,4 +130,4 @@ jobs:
 
       - name: Upload to PyPI
         run: |
-          python -m twine upload wheelhouse/so3g*cp${{ matrix.python }}-${{ matrix.builder }}*${{ matrix.arch }}*.whl
+          python -m twine upload wheelhouse/sospt3g*cp${{ matrix.python }}-${{ matrix.builder }}*${{ matrix.arch }}*.whl

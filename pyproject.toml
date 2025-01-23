@@ -9,7 +9,7 @@ requires = [
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "spt3g"
+name = "sospt3g"
 readme = "README.md"
 description = "Public Subset of Analysis Software Developed by the SPT-3G Collaboration"
 urls = {source = "https://github.com/simonsobs/sospt3g"}
