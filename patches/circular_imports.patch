@@ -1,0 +1,257 @@
+diff -urN spt3g_software_orig/core/python/dataextensions.py spt3g_software/core/python/dataextensions.py
+--- spt3g_software_orig/core/python/dataextensions.py	2025-01-14 23:48:46.998901519 -0800
++++ spt3g_software/core/python/dataextensions.py	2025-01-14 23:49:10.240796800 -0800
+@@ -1,4 +1,4 @@
+-from . import G3Bool, G3Int, G3Double, G3String
++from .._libcore import G3Bool, G3Int, G3Double, G3String
+ 
+ __all__ = []
+ 
+diff -urN spt3g_software_orig/core/python/docparser.py spt3g_software/core/python/docparser.py
+--- spt3g_software_orig/core/python/docparser.py	2025-01-14 23:48:46.998901519 -0800
++++ spt3g_software/core/python/docparser.py	2025-01-14 23:49:10.240796800 -0800
+@@ -1,5 +1,5 @@
+ import sys, inspect, re, textwrap
+-from . import G3Module, G3FrameObject
++from .._libcore import G3Module, G3FrameObject
+ 
+ def format_doc(x, simple=False):
+     """
+diff -urN spt3g_software_orig/core/python/fileio.py spt3g_software/core/python/fileio.py
+--- spt3g_software_orig/core/python/fileio.py	2025-01-14 23:48:46.999901515 -0800
++++ spt3g_software/core/python/fileio.py	2025-01-14 23:49:10.241796795 -0800
+@@ -1,4 +1,4 @@
+-from .. import core
++from .._libcore import G3Reader, G3Frame, G3FrameType, G3Writer, G3MultiFileWriter
+ 
+ __all__ = ["G3File"]
+ 
+@@ -16,7 +16,7 @@
+     """
+ 
+     def __init__(self, path):
+-        self.reader = core.G3Reader(path)
++        self.reader = G3Reader(path)
+ 
+     def __iter__(self):
+         return self
+@@ -49,11 +49,11 @@
+ 
+ 
+ def writer_exit(self, *args, **kwargs):
+-    fr = core.G3Frame(core.G3FrameType.EndProcessing)
++    fr = G3Frame(G3FrameType.EndProcessing)
+     self(fr)
+ 
+ 
+-core.G3Writer.__enter__ = writer_enter
+-core.G3Writer.__exit__ = writer_exit
+-core.G3MultiFileWriter.__enter__ = writer_enter
+-core.G3MultiFileWriter.__exit__ = writer_exit
++G3Writer.__enter__ = writer_enter
++G3Writer.__exit__ = writer_exit
++G3MultiFileWriter.__enter__ = writer_enter
++G3MultiFileWriter.__exit__ = writer_exit
+diff -urN spt3g_software_orig/core/python/frameextensions.py spt3g_software/core/python/frameextensions.py
+--- spt3g_software_orig/core/python/frameextensions.py	2025-01-14 23:48:46.999901515 -0800
++++ spt3g_software/core/python/frameextensions.py	2025-01-14 23:49:10.241796795 -0800
+@@ -1,4 +1,4 @@
+-from . import G3Frame, G3FrameType
++from .._libcore import G3Frame, G3FrameType
+ 
+ @staticmethod
+ def str_to_frame_types(types):
+diff -urN spt3g_software_orig/core/python/g3decorators.py spt3g_software/core/python/g3decorators.py
+--- spt3g_software_orig/core/python/g3decorators.py	2025-01-14 23:48:46.999901515 -0800
++++ spt3g_software/core/python/g3decorators.py	2025-01-14 23:49:10.241796795 -0800
+@@ -1,4 +1,4 @@
+-from . import G3FrameType
++from .._libcore import G3FrameType
+ from copy import copy
+ import inspect
+ import textwrap
+@@ -27,7 +27,7 @@
+     This is a decorator for use with G3Modules written as functions.  It enables
+     a function to use cached values from other types of frames in the processing
+     of a frame.
+-    
++
+     To make that confusing sentence clearer with an example, in a lot of cases
+     we want to have a module that works on Scan frames, but have access to the
+     BolometerProperties.  This decorator allows you to specify the information
+@@ -47,7 +47,7 @@
+     Key specifies the name of the argument that we pass the infromation to in
+     the decorated function.  If the decorated function is called with Key as an
+     argument it will overwrite the value specified in the decorator.
+-       
++
+     Value specifies the default path to look for the cached data.  It will
+     search all of the frames that do not have the frame type 'type' for a key
+     with that value.  This can be overridden when calling the decorated
+@@ -74,7 +74,7 @@
+             doc_append += '    %s = "%s"\n' % ( k, v )
+ 
+         class WrappedFunc:
+-            def __init__(self, *args, **kwargs): 
++            def __init__(self, *args, **kwargs):
+                 self.args = args
+                 self.kwargs = kwargs
+ 
+diff -urN spt3g_software_orig/core/python/g3logging.py spt3g_software/core/python/g3logging.py
+--- spt3g_software_orig/core/python/g3logging.py	2025-01-14 23:48:47.000901510 -0800
++++ spt3g_software/core/python/g3logging.py	2025-01-14 23:49:10.241796795 -0800
+@@ -1,4 +1,4 @@
+-from . import G3Logger, G3LogLevel
++from .._libcore import G3Logger, G3LogLevel
+ import traceback
+ from functools import reduce
+ 
+@@ -27,12 +27,12 @@
+ def log_fatal(*args, **kwargs):
+     '''
+     Behaves like print but with logging behavior as described in logging.rst
+-    
++
+     The only kwarg that it recognizes is "unit", for setting the logging unit.
+     '''
+     message = reduce(lambda a,b: '%s %s' % ( str(a), str(b)), args)
+     unit = kwargs.get('unit')
+-    unit = unit if unit != None else 'Python'    
++    unit = unit if unit != None else 'Python'
+     tb = traceback.extract_stack(limit=2)[0]
+     G3Logger.global_logger.log(G3LogLevel.LOG_FATAL, unit, tb[0], tb[1],
+         tb[2], message)
+@@ -42,7 +42,7 @@
+     '''
+     Set log level to the requested level. If unit is not None, set the
+     log level for the given logging unit only.
+-    
++
+     Example: core.set_log_level(core.G3LogLevel.LOG_DEBUG, 'GCPMuxDataDecoder')
+     '''
+ 
+diff -urN spt3g_software_orig/core/python/modconstruct.py spt3g_software/core/python/modconstruct.py
+--- spt3g_software_orig/core/python/modconstruct.py	2025-01-14 23:48:47.000901510 -0800
++++ spt3g_software/core/python/modconstruct.py	2025-01-14 23:50:06.884541584 -0800
+@@ -1,4 +1,13 @@
+-from . import G3Module, G3Pipeline, G3PipelineInfo, G3Frame, G3FrameType, G3Time, G3ModuleConfig, log_fatal
++from .._libcore import (
++    G3Module,
++    G3Pipeline,
++    G3PipelineInfo,
++    G3Frame,
++    G3FrameType,
++    G3Time,
++    G3ModuleConfig,
++)
++from .g3logging import log_fatal
+ try:
+     from . import multiprocess
+     multiproc_avail = True
+@@ -240,7 +249,7 @@
+     name = self.nameprefix + name
+ 
+     # Record module configuration for root objects
+-    if self.nameprefix == '': 
++    if self.nameprefix == '':
+         modconfig = G3ModuleConfig()
+         modconfig.instancename = name
+         modconfig.modname = '%s.%s' % (callable.__module__, callable_name)
+diff -urN spt3g_software_orig/core/python/multiprocess.py spt3g_software/core/python/multiprocess.py
+--- spt3g_software_orig/core/python/multiprocess.py	2025-01-14 23:48:47.009901470 -0800
++++ spt3g_software/core/python/multiprocess.py	2025-01-14 23:49:10.242796791 -0800
+@@ -1,7 +1,7 @@
+ from multiprocessing import get_context
+ import socket, pickle, errno, struct, time
+ 
+-from . import G3FrameType, G3Frame
++from .._libcore import G3FrameType, G3Frame
+ 
+ # Require fork to avoid pickling errors
+ ctx = get_context("fork")
+@@ -84,7 +84,7 @@
+                     while bytestoread > len(inbuf):
+                         inbuf += self.queue[0].recv(bytestoread - len(inbuf))
+                     self.queue[0].setblocking(False)
+-                                
++
+                     allout += pickle.loads(inbuf)
+                     self.callsqueued -= 1
+                     icount = 0 # Forward progress! Try again quick
+@@ -128,7 +128,7 @@
+             outbuf = pickle.dumps(out)
+             outbuf = struct.pack('i', len(outbuf)) + outbuf
+             self.queue[1].send(outbuf)
+-                
++
+             if frame.type == G3FrameType.EndProcessing:
+                 return
+ 
+diff -urN spt3g_software_orig/core/python/quatextensions.py spt3g_software/core/python/quatextensions.py
+--- spt3g_software_orig/core/python/quatextensions.py	2025-01-14 23:48:47.009901470 -0800
++++ spt3g_software/core/python/quatextensions.py	2025-01-14 23:49:10.242796791 -0800
+@@ -1,5 +1,5 @@
+ import numpy as np
+-from . import Quat, G3VectorQuat, G3TimestreamQuat
++from .._libcore import Quat, G3VectorQuat, G3TimestreamQuat
+ 
+ __all__ = []
+ 
+diff -urN spt3g_software_orig/core/python/timestreamextensions.py spt3g_software/core/python/timestreamextensions.py
+--- spt3g_software_orig/core/python/timestreamextensions.py	2025-01-14 23:48:47.009901470 -0800
++++ spt3g_software/core/python/timestreamextensions.py	2025-01-14 23:49:10.243796786 -0800
+@@ -1,7 +1,22 @@
+ import numpy
+-from . import G3Timestream, DoubleVector, G3VectorDouble, G3TimestreamMap, G3VectorTime, G3Time, IntVector, G3VectorInt, \
+-    G3VectorComplexDouble, ComplexDoubleVector, BoolVector, G3VectorBool
+-from . import G3Units, log_fatal, log_warn, usefulfunc, G3FrameObject
++from .._libcore import (
++    G3Timestream,
++    DoubleVector,
++    G3VectorDouble,
++    G3TimestreamMap,
++    G3VectorTime,
++    G3Time,
++    IntVector,
++    G3VectorInt,
++    G3VectorComplexDouble,
++    ComplexDoubleVector,
++    BoolVector,
++    G3VectorBool,
++    G3Units,
++    G3FrameObject,
++)
++from .g3logging import log_fatal, log_warn
++from .funcconstruct import usefulfunc
+ 
+ __all__ = ['concatenate_timestreams']
+ 
+diff -urN spt3g_software_orig/core/python/util.py spt3g_software/core/python/util.py
+--- spt3g_software_orig/core/python/util.py	2025-01-14 23:48:47.010901465 -0800
++++ spt3g_software/core/python/util.py	2025-01-14 23:49:10.243796786 -0800
+@@ -1,4 +1,6 @@
+-from . import indexmod, pipesegment, G3FrameType, log_fatal, G3Reader, G3NetworkSender
++from .._libcore import G3FrameType, G3Reader, G3NetworkSender
++from .g3logging import log_fatal
++from .modconstruct import indexmod, pipesegment
+ 
+ @indexmod
+ def Delete(frame, keys=[], type=None):
+@@ -65,7 +67,7 @@
+ 
+     The frame data is stored in the variable names "frame".
+ 
+-    If debug_start_func is not None, only starts a debug session when 
++    If debug_start_func is not None, only starts a debug session when
+             debug_start_func(frame) == True
+         '''
+     if type is None or frame.type == type:
+@@ -181,7 +183,7 @@
+             else:
+                 self.metacache.append(frame)
+             return []
+-                    
++
+ 
+ del indexmod
+ del pipesegment

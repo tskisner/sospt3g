@@ -1,0 +1,34 @@
+Binary files core_orig/python/__pycache__/dataextensions.cpython-312.pyc and core/python/__pycache__/dataextensions.cpython-312.pyc differ
+Binary files core_orig/python/__pycache__/docparser.cpython-312.pyc and core/python/__pycache__/docparser.cpython-312.pyc differ
+Binary files core_orig/python/__pycache__/fileio.cpython-312.pyc and core/python/__pycache__/fileio.cpython-312.pyc differ
+Binary files core_orig/python/__pycache__/frameextensions.cpython-312.pyc and core/python/__pycache__/frameextensions.cpython-312.pyc differ
+Binary files core_orig/python/__pycache__/funcconstruct.cpython-312.pyc and core/python/__pycache__/funcconstruct.cpython-312.pyc differ
+Binary files core_orig/python/__pycache__/g3decorators.cpython-312.pyc and core/python/__pycache__/g3decorators.cpython-312.pyc differ
+Binary files core_orig/python/__pycache__/g3logging.cpython-312.pyc and core/python/__pycache__/g3logging.cpython-312.pyc differ
+Binary files core_orig/python/__pycache__/__init__.cpython-312.pyc and core/python/__pycache__/__init__.cpython-312.pyc differ
+Binary files core_orig/python/__pycache__/modconstruct.cpython-312.pyc and core/python/__pycache__/modconstruct.cpython-312.pyc differ
+Binary files core_orig/python/__pycache__/multiprocess.cpython-312.pyc and core/python/__pycache__/multiprocess.cpython-312.pyc differ
+Binary files core_orig/python/__pycache__/parse_pipeline_graph.cpython-312.pyc and core/python/__pycache__/parse_pipeline_graph.cpython-312.pyc differ
+Binary files core_orig/python/__pycache__/quatextensions.cpython-312.pyc and core/python/__pycache__/quatextensions.cpython-312.pyc differ
+Binary files core_orig/python/__pycache__/timestreamextensions.cpython-312.pyc and core/python/__pycache__/timestreamextensions.cpython-312.pyc differ
+Binary files core_orig/python/__pycache__/util.cpython-312.pyc and core/python/__pycache__/util.cpython-312.pyc differ
+diff -urN core_orig/src/G3TimeStamp.cxx core/src/G3TimeStamp.cxx
+--- core_orig/src/G3TimeStamp.cxx	2025-01-21 15:04:25.364500778 -0800
++++ core/src/G3TimeStamp.cxx	2025-01-23 08:05:52.219903897 -0800
+@@ -2,11 +2,12 @@
+ #include <serialization.h>
+ 
+ #include <stdint.h>
+-#ifdef __APPLE__
+ #include <sys/time.h>
+-#else
+-#include <time.h>
+-#endif
++// #ifdef __APPLE__
++// #include <sys/time.h>
++// #else
++// #include <time.h>
++// #endif
+ #include <sstream>
+ #include <iomanip>
+ 
