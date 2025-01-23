@@ -1,4 +1,4 @@
-from .._libcore import G3Logger, G3LogLevel
+from . import G3Logger, G3LogLevel
 import traceback
 from functools import reduce
 
@@ -27,12 +27,12 @@ log_error = _make_logger(G3LogLevel.LOG_ERROR)
 def log_fatal(*args, **kwargs):
     '''
     Behaves like print but with logging behavior as described in logging.rst
-
+    
     The only kwarg that it recognizes is "unit", for setting the logging unit.
     '''
     message = reduce(lambda a,b: '%s %s' % ( str(a), str(b)), args)
     unit = kwargs.get('unit')
-    unit = unit if unit != None else 'Python'
+    unit = unit if unit != None else 'Python'    
     tb = traceback.extract_stack(limit=2)[0]
     G3Logger.global_logger.log(G3LogLevel.LOG_FATAL, unit, tb[0], tb[1],
         tb[2], message)
@@ -42,7 +42,7 @@ def set_log_level(level, unit=None):
     '''
     Set log level to the requested level. If unit is not None, set the
     log level for the given logging unit only.
-
+    
     Example: core.set_log_level(core.G3LogLevel.LOG_DEBUG, 'GCPMuxDataDecoder')
     '''
 

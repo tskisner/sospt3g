@@ -1,22 +1,7 @@
 import numpy
-from .._libcore import (
-    G3Timestream,
-    DoubleVector,
-    G3VectorDouble,
-    G3TimestreamMap,
-    G3VectorTime,
-    G3Time,
-    IntVector,
-    G3VectorInt,
-    G3VectorComplexDouble,
-    ComplexDoubleVector,
-    BoolVector,
-    G3VectorBool,
-    G3Units,
-    G3FrameObject,
-)
-from .g3logging import log_fatal, log_warn
-from .funcconstruct import usefulfunc
+from . import G3Timestream, DoubleVector, G3VectorDouble, G3TimestreamMap, G3VectorTime, G3Time, IntVector, G3VectorInt, \
+    G3VectorComplexDouble, ComplexDoubleVector, BoolVector, G3VectorBool
+from . import G3Units, log_fatal, log_warn, usefulfunc, G3FrameObject
 
 __all__ = ['concatenate_timestreams']
 

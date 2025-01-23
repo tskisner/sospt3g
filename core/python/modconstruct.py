@@ -1,13 +1,4 @@
-from .._libcore import (
-    G3Module,
-    G3Pipeline,
-    G3PipelineInfo,
-    G3Frame,
-    G3FrameType,
-    G3Time,
-    G3ModuleConfig,
-)
-from .g3logging import log_fatal
+from . import G3Module, G3Pipeline, G3PipelineInfo, G3Frame, G3FrameType, G3Time, G3ModuleConfig, log_fatal
 try:
     from . import multiprocess
     multiproc_avail = True
@@ -249,7 +240,7 @@ def PipelineAddCallable(self, callable, name=None, subprocess=False, **kwargs):
     name = self.nameprefix + name
 
     # Record module configuration for root objects
-    if self.nameprefix == '':
+    if self.nameprefix == '': 
         modconfig = G3ModuleConfig()
         modconfig.instancename = name
         modconfig.modname = '%s.%s' % (callable.__module__, callable_name)

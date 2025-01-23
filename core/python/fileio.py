@@ -1,4 +1,4 @@
-from .._libcore import G3Reader, G3Frame, G3FrameType, G3Writer, G3MultiFileWriter
+from .. import core
 
 __all__ = ["G3File"]
 
@@ -16,7 +16,7 @@ class G3File(object):
     """
 
     def __init__(self, path):
-        self.reader = G3Reader(path)
+        self.reader = core.G3Reader(path)
 
     def __iter__(self):
         return self
@@ -49,11 +49,11 @@ def writer_enter(self):
 
 
 def writer_exit(self, *args, **kwargs):
-    fr = G3Frame(G3FrameType.EndProcessing)
+    fr = core.G3Frame(core.G3FrameType.EndProcessing)
     self(fr)
 
 
-G3Writer.__enter__ = writer_enter
-G3Writer.__exit__ = writer_exit
-G3MultiFileWriter.__enter__ = writer_enter
-G3MultiFileWriter.__exit__ = writer_exit
+core.G3Writer.__enter__ = writer_enter
+core.G3Writer.__exit__ = writer_exit
+core.G3MultiFileWriter.__enter__ = writer_enter
+core.G3MultiFileWriter.__exit__ = writer_exit

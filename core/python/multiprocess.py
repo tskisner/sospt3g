@@ -1,7 +1,7 @@
 from multiprocessing import get_context
 import socket, pickle, errno, struct, time
 
-from .._libcore import G3FrameType, G3Frame
+from . import G3FrameType, G3Frame
 
 # Require fork to avoid pickling errors
 ctx = get_context("fork")
@@ -84,7 +84,7 @@ class Subproc(ctx.Process):
                     while bytestoread > len(inbuf):
                         inbuf += self.queue[0].recv(bytestoread - len(inbuf))
                     self.queue[0].setblocking(False)
-
+                                
                     allout += pickle.loads(inbuf)
                     self.callsqueued -= 1
                     icount = 0 # Forward progress! Try again quick
@@ -128,7 +128,7 @@ class Subproc(ctx.Process):
             outbuf = pickle.dumps(out)
             outbuf = struct.pack('i', len(outbuf)) + outbuf
             self.queue[1].send(outbuf)
-
+                
             if frame.type == G3FrameType.EndProcessing:
                 return
 
