@@ -13,7 +13,7 @@ export CIBW_BEFORE_BUILD_LINUX="./wheels/install_deps_linux.sh; python -c 'impor
 export CIBW_REPAIR_WHEEL_COMMAND_LINUX="./wheels/repair_wheel_linux.sh {dest_dir} {wheel}"
 export CIBW_BEFORE_TEST="export OMP_NUM_THREADS=2"
 export CIBW_TEST_REQUIRES=
-export CIBW_TEST_COMMAND="python -c 'from spt3g import so'"
+export CIBW_TEST_COMMAND="ldd $(dirname $(python -c 'import spt3g; print(spt3g.__file__)'))/_libcore*.so; python -c 'import spt3g'; python -c 'import spt3g; from spt3g import _libcore'; python -c 'from spt3g import core; from spt3g import so'"
 
 # Get the current date for logging
 now=$(date "+%Y-%m-%d_%H:%M:%S")
