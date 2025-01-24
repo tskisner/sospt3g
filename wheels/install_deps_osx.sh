@@ -19,8 +19,8 @@ pushd "${depbuild}"
 
 # Build options.
 
-#use_gcc=yes
-use_gcc=no
+use_gcc=yes
+#use_gcc=no
 gcc_version=14
 
 if [ "x${use_gcc}" = "xyes" ]; then

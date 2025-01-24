@@ -128,6 +128,22 @@ jobs:
         run: |
           python -m cibuildwheel --output-dir wheelhouse
 
-      - name: Upload to PyPI
-        run: |
-          python -m twine upload wheelhouse/sospt3g*cp${{ matrix.python }}-${{ matrix.builder }}*${{ matrix.arch }}*.whl
+      - uses: actions/upload-artifact@v4
+        with:
+          name: wheels_cp${{ matrix.python }}-${{ matrix.builder }}_${{ matrix.arch }}
+          path: ./wheelhouse/sospt3g*cp${{ matrix.python }}-${{ matrix.builder }}*${{ matrix.arch }}*.whl
+
+upload_pypi:
+  needs: build_wheels
+  runs-on: ubuntu-latest
+  permissions:
+    id-token: write
+  steps:
+    - uses: actions/download-artifact@v4
+      with:
+        # Unpacks all artifacts into dist/
+        pattern: sospt3g-*
+        path: dist
+        merge-multiple: true
+
+    - uses: pypa/gh-action-pypi-publish@release/v1

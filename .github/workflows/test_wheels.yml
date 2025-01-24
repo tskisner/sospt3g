@@ -103,10 +103,14 @@ jobs:
         CMAKE_ARGS='-DCMAKE_VERBOSE_MAKEFILE=ON -DBoost_NO_BOOST_CMAKE=ON -DBOOST_ROOT=/usr/local'
       CIBW_ENVIRONMENT_MACOS: >
         MACOSX_DEPLOYMENT_TARGET=${{ matrix.deploy }}
-        CC=clang
-        CXX=clang++
+        # CC=clang
+        # CXX=clang++
+        # CFLAGS='-O3 -fPIC'
+        # CXXFLAGS='-O3 -fPIC -std=c++17 -stdlib=libc++'
+        CC=gcc-14
+        CXX=g++-14
         CFLAGS='-O3 -fPIC'
-        CXXFLAGS='-O3 -fPIC -std=c++17 -stdlib=libc++'
+        CXXFLAGS='-O3 -fPIC -std=c++17'
         FLAC_ROOT='/usr/local'
         CMAKE_ARGS='-DCMAKE_VERBOSE_MAKEFILE=ON -DBoost_NO_BOOST_CMAKE=ON -DBOOST_ROOT=/usr/local'
       CIBW_BEFORE_BUILD_LINUX: ./wheels/install_deps_linux.sh
@@ -136,5 +140,5 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: wheels_cp${{ matrix.python }}-${{ matrix.builder }}
+          name: wheels_cp${{ matrix.python }}-${{ matrix.builder }}_${{ matrix.arch }}
           path: ./wheelhouse/sospt3g*cp${{ matrix.python }}-${{ matrix.builder }}*${{ matrix.arch }}*.whl
