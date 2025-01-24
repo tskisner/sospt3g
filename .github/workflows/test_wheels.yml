@@ -103,14 +103,10 @@ jobs:
         CMAKE_ARGS='-DCMAKE_VERBOSE_MAKEFILE=ON -DBoost_NO_BOOST_CMAKE=ON -DBOOST_ROOT=/usr/local'
       CIBW_ENVIRONMENT_MACOS: >
         MACOSX_DEPLOYMENT_TARGET=${{ matrix.deploy }}
-        # CC=clang
-        # CXX=clang++
-        # CFLAGS='-O3 -fPIC'
-        # CXXFLAGS='-O3 -fPIC -std=c++17 -stdlib=libc++'
-        CC=gcc-14
-        CXX=g++-14
+        CC=clang
+        CXX=clang++
         CFLAGS='-O3 -fPIC'
-        CXXFLAGS='-O3 -fPIC -std=c++17'
+        CXXFLAGS='-O3 -fPIC -std=c++17 -stdlib=libc++'
         FLAC_ROOT='/usr/local'
         CMAKE_ARGS='-DCMAKE_VERBOSE_MAKEFILE=ON -DBoost_NO_BOOST_CMAKE=ON -DBOOST_ROOT=/usr/local'
       CIBW_BEFORE_BUILD_LINUX: ./wheels/install_deps_linux.sh
@@ -119,7 +115,13 @@ jobs:
       CIBW_REPAIR_WHEEL_COMMAND_MACOS: ./wheels/repair_wheel_macos.sh {dest_dir} {wheel} {delocate_archs}
       CIBW_BEFORE_TEST: export OMP_NUM_THREADS=2
       CIBW_TEST_REQUIRES:
-      CIBW_TEST_COMMAND: >
+      CIBW_TEST_COMMAND_LINUX: >
+        python -c 'from spt3g import core; from spt3g import so'
+      CIBW_TEST_COMMAND_MACOS: >
+        pkgdir=$(dirname $(python -c 'import so3g; print(so3g.__file__)'))
+        otool -L ${pkgdir}/_libcore*.dylib
+        python -c 'import spt3g'
+        pytyon -c 'import spt3g; from spt3g import _libcore'
         python -c 'from spt3g import core; from spt3g import so'
     steps:
       - name: Checkout
