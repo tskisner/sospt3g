@@ -34,6 +34,9 @@ MAKEJ=2
 
 PREFIX=/usr/local
 
+# Link lib64 directory to lib
+ln -s /usr/local/lib /usr/local/lib64
+
 # Update pip
 pip install --upgrade pip
 

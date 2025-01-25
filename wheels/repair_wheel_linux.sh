@@ -10,6 +10,6 @@ set -e
 dest_dir=$1
 wheel=$2
 
-export LD_LIBRARY_PATH="/usr/local/lib":"/usr/local/lib64":${LD_LIBRARY_PATH}
+export LD_LIBRARY_PATH="/usr/local/lib":${LD_LIBRARY_PATH}
 
 auditwheel repair -w ${dest_dir} ${wheel}
