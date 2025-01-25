@@ -122,7 +122,7 @@ jobs:
       CIBW_TEST_COMMAND_LINUX: >
         python -c 'from spt3g import core; from spt3g import so'
       CIBW_TEST_COMMAND_MACOS: >
-        otool -L \$(dirname \$(python -c 'import spt3g; print(spt3g.__file__)'))/_libcore*
+        python -c 'import spt3g; print(spt3g.__file__)'))/_libcore* | xargs | otool -L
         python -c 'import spt3g'
         python -c 'import spt3g; from spt3g import _libcore'
         python -c 'from spt3g import core; from spt3g import so'
