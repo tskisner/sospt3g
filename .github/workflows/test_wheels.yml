@@ -122,8 +122,6 @@ jobs:
       CIBW_TEST_COMMAND_LINUX: >
         python -c 'from spt3g import core; from spt3g import so'
       CIBW_TEST_COMMAND_MACOS: >
-        python -c 'import spt3g; print(spt3g.__file__)' | xargs dirname | xargs -I DIR ls -1 DIR
-        python -c 'import spt3g; print(spt3g.__file__)' | xargs dirname | xargs -I DIR find DIR -name '*libcore*' | xargs otool -L
         python -c 'import spt3g; from spt3g import _libcore'
         python -c 'from spt3g import core; from spt3g import so'
     steps:
