@@ -35,6 +35,8 @@ MAKEJ=2
 PREFIX=/usr/local
 
 # Link lib64 directory to lib
+echo "Symlink /usr/local/lib64 to /usr/local/lib"
+rm -rf /usr/local/lib64
 ln -s /usr/local/lib /usr/local/lib64
 
 # Update pip

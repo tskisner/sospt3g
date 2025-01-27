@@ -74,9 +74,9 @@ if(TARGET Python::Module)
 	target_link_libraries(spt3g INTERFACE Python::Module)
 else()
 	target_include_directories(spt3g INTERFACE ${Python_INCLUDE_DIRS})
-	if(APPLE)
-		target_link_options(spt3g INTERFACE "LINKER:-undefined,dynamic_lookup")
-	endif()
+	# if(APPLE)
+	# 	target_link_options(spt3g INTERFACE "LINKER:-undefined,dynamic_lookup")
+	# endif()
 endif()
 
 # Work around yet more bugs in GCC 4.4, this time with C++ 11 support
