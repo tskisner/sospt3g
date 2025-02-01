@@ -64,6 +64,9 @@ if (SPT3G_VERSION)
 	target_compile_definitions(spt3g INTERFACE -DSPT3G_VERSION="${SPT3G_VERSION}")
 endif()
 
+# Disable boost python auto_ptr warnings
+target_compile_definitions(spt3g INTERFACE BOOST_NO_AUTO_PTR)
+
 target_compile_features(spt3g INTERFACE cxx_std_11)
 target_include_directories(spt3g INTERFACE ${Boost_INCLUDE_DIR})
 target_link_libraries(spt3g INTERFACE Threads::Threads ${Boost_LIBRARIES})
