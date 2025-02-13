@@ -111,7 +111,7 @@ jobs:
         CXX=g++-14
         CFLAGS='-O3 -fPIC'
         CXXFLAGS='-O3 -fPIC -std=c++17'
-        FLAC_ROOT='/usr/local'
+        FLAC_ROOT="$(brew --prefix flac)"
         CMAKE_ARGS='-DCMAKE_VERBOSE_MAKEFILE=ON -DBoost_NO_BOOST_CMAKE=ON -DBOOST_ROOT=/usr/local'
       CIBW_BEFORE_BUILD_LINUX: ./wheels/install_deps_linux.sh
       CIBW_BEFORE_BUILD_MACOS: ./wheels/install_deps_osx.sh
